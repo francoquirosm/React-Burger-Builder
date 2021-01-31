@@ -5,7 +5,7 @@ import Aux from "../../../hoc/Aux";
 
 const Modal = ({ show, children, closeModal }) => (
   <Aux>
-    <Backdrop show={show} onClick={closeModal} />
+    <Backdrop show={show} clicked={closeModal} />
     <div
       className={classes.Modal}
       style={{
