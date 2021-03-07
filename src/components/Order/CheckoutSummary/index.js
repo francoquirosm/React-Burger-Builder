@@ -1,7 +1,7 @@
 import React from "react";
 
-import Burger from "../Burger";
-import Button from "../UI/Button";
+import Burger from "../../Burger";
+import Button from "../../UI/Button";
 
 import classes from "./styles.css";
 
