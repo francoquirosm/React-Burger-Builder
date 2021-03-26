@@ -9,26 +9,15 @@ import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler";
 
 import { connect } from "react-redux";
-import * as actionTypes from "../../store/actions";
+import * as actions from "../../store/actions/index";
 
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
-    loading: false,
-    error: null,
   };
 
   componentDidMount() {
-    //   axios
-    //     .get(
-    //       "https://react-my-burger-9dcde-default-rtdb.firebaseio.com/ingredients.json"
-    //     )
-    //     .then((response) => {
-    //       this.setState({ ingredients: response.data });
-    //     })
-    //     .catch((error) => {
-    //       this.setState({ error: true });
-    //     });
+    this.props.onInitIngredients();
   }
 
   updatePurchaseState(ingredients) {
@@ -43,6 +32,7 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
   purchaseContinueHandler = () => {
+    this.props.onInitPurchase();
     this.props.history.push("/checkout");
   };
   purchaseHandler = () => {
@@ -58,7 +48,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = <Loader />;
 
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <p>Ingredients could not be loaded </p>
     ) : (
       <Loader />
@@ -77,9 +67,7 @@ class BurgerBuilder extends Component {
           />
         </Aux>
       );
-      orderSummary = this.state.loading ? (
-        <Loader />
-      ) : (
+      orderSummary = (
         <OrderSummary
           ingredients={this.props.ings}
           purchaseCancelled={this.purchaseCancelHandler}
@@ -103,14 +91,17 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  ings: state.ingredients,
-  price: state.totalPrice,
+  ings: state.burgerBuilder.ingredients,
+  price: state.burgerBuilder.totalPrice,
+  error: state.burgerBuilder.error,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onIngredientAdded: (ingName) =>
-    dispatch({ type: actionTypes.ADD_INGREDIENTS, payload: ingName }),
-  onIngredientRemoved: (ingName) =>
-    dispatch({ type: actionTypes.REMOVE_INGREDIENTS, payload: ingName }),
+  onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
+  onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
+  onInitIngredients: () => {
+    dispatch(actions.initIngredients());
+  },
+  onInitPurchase: () => dispatch(actions.purchaseInit()),
 });
 export default connect(
   mapStateToProps,
