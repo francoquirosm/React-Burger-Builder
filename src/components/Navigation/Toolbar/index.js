@@ -4,14 +4,14 @@ import NavigationItems from "../NavigationItems";
 import DrawerToggle from "../SideDrawer/DrawerToggle";
 import classes from "./styles.css";
 
-const Toolbar = ({ drawerToggleClicked }) => (
+const Toolbar = ({ drawerToggleClicked, isAuthenticated }) => (
   <header className={classes.Toolbar}>
     <DrawerToggle clicked={drawerToggleClicked} />
     <div className={classes.Logo}>
       <Logo />
     </div>
     <nav className={classes.DesktopOnly}>
-      <NavigationItems />
+      <NavigationItems isAuthenticated={isAuthenticated} />
     </nav>
   </header>
 );

@@ -15,6 +15,7 @@ const BuildControls = ({
   price,
   purchasable,
   ordered,
+  isAuthenticated,
 }) => (
   <div className={classes.BuildControls}>
     <p>
@@ -34,7 +35,7 @@ const BuildControls = ({
       className={classes.OrderButton}
       disabled={!purchasable}
     >
-      ORDER NOW!
+      {isAuthenticated ? "ORDER NOW!" : "SIGN UP TO ORDER"}
     </button>
   </div>
 );
